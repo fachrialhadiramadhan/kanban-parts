@@ -63,23 +63,23 @@ export default function SubItemModal({ item, onSave, onClose }: Props) {
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="mb-1 block text-[10px] font-bold tracking-wider text-slate-400 uppercase">Part Number</label>
-              <input type="text" value={form.partNumber} onChange={(e) => setForm({ ...form, partNumber: e.target.value })} placeholder="e.g. MC804020" className="w-full rounded border border-slate-700 bg-slate-800 px-3 py-2 text-xs text-white placeholder-slate-600 outline-none focus:border-cyan-500" required autoFocus />
+              <input type="text" value={form.partNumber} onChange={(e) => setForm({ ...form, partNumber: e.target.value })} placeholder="e.g. MC804020" maxLength={30} className="w-full rounded border border-slate-700 bg-slate-800 px-3 py-2 text-xs text-white placeholder-slate-600 outline-none focus:border-cyan-500" required autoFocus />
             </div>
             <div>
               <label className="mb-1 block text-[10px] font-bold tracking-wider text-slate-400 uppercase">Part Name</label>
-              <input type="text" value={form.partName} onChange={(e) => setForm({ ...form, partName: e.target.value })} placeholder="e.g. BOLT KING PIN SET" className="w-full rounded border border-slate-700 bg-slate-800 px-3 py-2 text-xs text-white placeholder-slate-600 outline-none focus:border-cyan-500" required />
+              <input type="text" value={form.partName} onChange={(e) => setForm({ ...form, partName: e.target.value })} placeholder="e.g. BOLT KING PIN SET" maxLength={120} className="w-full rounded border border-slate-700 bg-slate-800 px-3 py-2 text-xs text-white placeholder-slate-600 outline-none focus:border-cyan-500" required />
             </div>
             <div>
               <label className="mb-1 block text-[10px] font-bold tracking-wider text-slate-400 uppercase">Qty/Lot</label>
-              <input type="number" value={form.qty} onChange={(e) => setForm({ ...form, qty: parseInt(e.target.value) || 0 })} min="1" className="w-full rounded border border-slate-700 bg-slate-800 px-3 py-2 text-xs text-white outline-none focus:border-cyan-500" />
+              <input type="number" value={form.qty} onChange={(e) => setForm({ ...form, qty: parseInt(e.target.value) || 0 })} min="1" max="99999" className="w-full rounded border border-slate-700 bg-slate-800 px-3 py-2 text-xs text-white outline-none focus:border-cyan-500" />
             </div>
             <div>
               <label className="mb-1 block text-[10px] font-bold tracking-wider text-slate-400 uppercase">Variant</label>
-              <input type="text" value={form.variant} onChange={(e) => setForm({ ...form, variant: e.target.value })} placeholder="ALL VARIAN" className="w-full rounded border border-slate-700 bg-slate-800 px-3 py-2 text-xs text-white placeholder-slate-600 outline-none focus:border-cyan-500" />
+              <input type="text" value={form.variant} onChange={(e) => setForm({ ...form, variant: e.target.value })} placeholder="ALL VARIAN" maxLength={60} className="w-full rounded border border-slate-700 bg-slate-800 px-3 py-2 text-xs text-white placeholder-slate-600 outline-none focus:border-cyan-500" />
             </div>
             <div className="col-span-2">
               <label className="mb-1 block text-[10px] font-bold tracking-wider text-slate-400 uppercase">Description</label>
-              <textarea value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} placeholder="Optional notes..." rows={2} className="w-full resize-none rounded border border-slate-700 bg-slate-800 px-3 py-2 text-xs text-white placeholder-slate-600 outline-none focus:border-cyan-500" />
+              <textarea value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} placeholder="Optional notes..." rows={2} maxLength={500} className="w-full resize-none rounded border border-slate-700 bg-slate-800 px-3 py-2 text-xs text-white placeholder-slate-600 outline-none focus:border-cyan-500" />
             </div>
           </div>
           <div className="mt-5 flex justify-end gap-2">

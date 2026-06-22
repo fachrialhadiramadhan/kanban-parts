@@ -75,6 +75,7 @@ export default function MasterModal({ master, onSave, onClose, statuses }: Props
                 value={form.name}
                 onChange={(e) => setForm({ ...form, name: e.target.value })}
                 placeholder="e.g. SUPPLY PART TO FRONT AXLE ASSY"
+                maxLength={120}
                 className="w-full rounded border border-slate-700 bg-slate-800 px-3 py-2 text-xs text-white placeholder-slate-600 outline-none transition focus:border-cyan-500"
                 required
                 autoFocus
@@ -87,6 +88,7 @@ export default function MasterModal({ master, onSave, onClose, statuses }: Props
                 value={form.daishaNo}
                 onChange={(e) => setForm({ ...form, daishaNo: e.target.value })}
                 placeholder="e.g. 32"
+                maxLength={30}
                 className="w-full rounded border border-slate-700 bg-slate-800 px-3 py-2 text-xs text-white placeholder-slate-600 outline-none transition focus:border-cyan-500"
               />
             </div>
@@ -97,6 +99,7 @@ export default function MasterModal({ master, onSave, onClose, statuses }: Props
                 value={form.varian}
                 onChange={(e) => setForm({ ...form, varian: e.target.value })}
                 placeholder="e.g. ALL VARIAN"
+                maxLength={60}
                 className="w-full rounded border border-slate-700 bg-slate-800 px-3 py-2 text-xs text-white placeholder-slate-600 outline-none transition focus:border-cyan-500"
               />
             </div>
@@ -107,6 +110,7 @@ export default function MasterModal({ master, onSave, onClose, statuses }: Props
                 value={form.lotNo}
                 onChange={(e) => setForm({ ...form, lotNo: e.target.value })}
                 placeholder="e.g. LOT-001"
+                maxLength={30}
                 className="w-full rounded border border-slate-700 bg-slate-800 px-3 py-2 text-xs text-white placeholder-slate-600 outline-none transition focus:border-cyan-500"
               />
             </div>

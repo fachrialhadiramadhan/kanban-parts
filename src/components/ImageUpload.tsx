@@ -9,21 +9,55 @@ interface ImageUploadProps {
   small?: boolean;
 }
 
+const MAX_SIZE = 800_000; // 800KB per image
+const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif"];
+
 export default function ImageUpload({ value, onChange, label = "Upload Image", small = false }: ImageUploadProps) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    if (file.size > 800_000) {
-      alert("Image too large. Max 800KB.");
+
+    // MIME validation
+    if (!ALLOWED_TYPES.includes(file.type)) {
+      alert(`Invalid file type. Allowed: ${ALLOWED_TYPES.join(", ")}`);
+      e.target.value = "";
       return;
     }
+
+    // Size check
+    if (file.size > MAX_SIZE) {
+      alert(`Image too large. Max ${Math.round(MAX_SIZE / 1000)}KB. Yours: ${Math.round(file.size / 1000)}KB.`);
+      e.target.value = "";
+      return;
+    }
+
+    // Total localStorage size check
+    try {
+      const totalUsed = Object.keys(localStorage).reduce((sum, key) => {
+        const val = localStorage.getItem(key) ?? "";
+        return sum + key.length + val.length;
+      }, 0);
+      const MAX_LOCALSTORAGE = 4_500_000; // 4.5MB safety limit (browsers vary 5-10MB)
+      if (totalUsed + file.size * 1.4 > MAX_LOCALSTORAGE) {
+        alert("Storage nearly full. Delete some images first.");
+        e.target.value = "";
+        return;
+      }
+    } catch {
+      // Continue anyway
+    }
+
     const reader = new FileReader();
     reader.onload = () => {
       onChange(reader.result as string);
     };
+    reader.onerror = () => {
+      alert("Failed to read file.");
+    };
     reader.readAsDataURL(file);
+    e.target.value = "";
   };
 
   const h = small ? "h-12 w-12" : "h-24 w-24";
@@ -33,6 +67,9 @@ export default function ImageUpload({ value, onChange, label = "Upload Image", s
       <div
         className={`${h} flex shrink-0 cursor-pointer items-center justify-center overflow-hidden rounded border-2 border-dashed border-slate-600 bg-slate-800/50 transition hover:border-cyan-500`}
         onClick={() => inputRef.current?.click()}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") inputRef.current?.click(); }}
       >
         {value ? (
           // eslint-disable-next-line @next/next/no-img-element
@@ -67,7 +104,7 @@ export default function ImageUpload({ value, onChange, label = "Upload Image", s
       <input
         ref={inputRef}
         type="file"
-        accept="image/*"
+        accept={ALLOWED_TYPES.join(",")}
         onChange={handleFile}
         className="hidden"
       />
