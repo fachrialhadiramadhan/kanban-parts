@@ -1,32 +1,50 @@
 "use client";
 
-import { Task, SAMPLE_TASKS } from "./types";
+import { MasterTable, SubItem, SAMPLE_MASTERS, SAMPLE_SUBITEMS } from "./types";
 
-const STORAGE_KEY = "kanban-parts-tasks";
+const MASTERS_KEY = "kanban-masters";
+const SUBITEMS_KEY = "kanban-subitems";
 
-export function loadTasks(): Task[] {
+// Masters
+export function loadMasters(): MasterTable[] {
   if (typeof window === "undefined") return [];
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
+    const raw = localStorage.getItem(MASTERS_KEY);
     if (!raw) {
-      saveTasks(SAMPLE_TASKS);
-      return SAMPLE_TASKS;
+      localStorage.setItem(MASTERS_KEY, JSON.stringify(SAMPLE_MASTERS));
+      return SAMPLE_MASTERS;
     }
-    return JSON.parse(raw);
+    return JSON.parse(raw) as MasterTable[];
   } catch {
-    return SAMPLE_TASKS;
+    return SAMPLE_MASTERS;
   }
 }
 
-export function saveTasks(tasks: Task[]): void {
+export function saveMasters(masters: MasterTable[]) {
   if (typeof window === "undefined") return;
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+  localStorage.setItem(MASTERS_KEY, JSON.stringify(masters));
 }
 
-export function createTask(task: Omit<Task, "id" | "createdAt">): Task {
-  return {
-    ...task,
-    id: crypto.randomUUID(),
-    createdAt: new Date().toISOString(),
-  };
+// Sub Items
+export function loadSubItems(): SubItem[] {
+  if (typeof window === "undefined") return [];
+  try {
+    const raw = localStorage.getItem(SUBITEMS_KEY);
+    if (!raw) {
+      localStorage.setItem(SUBITEMS_KEY, JSON.stringify(SAMPLE_SUBITEMS));
+      return SAMPLE_SUBITEMS;
+    }
+    return JSON.parse(raw) as SubItem[];
+  } catch {
+    return SAMPLE_SUBITEMS;
+  }
+}
+
+export function saveSubItems(items: SubItem[]) {
+  if (typeof window === "undefined") return;
+  localStorage.setItem(SUBITEMS_KEY, JSON.stringify(items));
+}
+
+export function genId(): string {
+  return Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
 }

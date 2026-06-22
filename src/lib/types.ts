@@ -1,11 +1,23 @@
-export interface Task {
+export interface MasterTable {
   id: string;
+  name: string;
+  daishaNo: string;
+  varian: string;
+  lotNo: string;
+  image: string | null;
+  status: string;
+  createdAt: string;
+}
+
+export interface SubItem {
+  id: string;
+  masterTableId: string;
   partNumber: string;
   partName: string;
   qty: number;
   variant: string;
   description: string;
-  status: string;
+  picture: string | null;
   createdAt: string;
 }
 
@@ -22,45 +34,26 @@ export const DEFAULT_COLUMNS: Column[] = [
   { id: "done", title: "DONE", color: "#22c55e" },
 ];
 
-export const SAMPLE_TASKS: Task[] = [
+export const SAMPLE_MASTERS: MasterTable[] = [
   {
-    id: "1",
-    partNumber: "MC804020",
-    partName: "BOLT KING PIN SET",
-    qty: 24,
-    variant: "ALL VARIAN",
-    description: "King pin bolt assembly set",
-    status: "backlog",
-    createdAt: new Date().toISOString(),
-  },
-  {
-    id: "2",
-    partNumber: "MF524042",
-    partName: "NIPPLE GREASE (10)",
-    qty: 24,
-    variant: "ALL VARIAN",
-    description: "Grease nipple fitting size 10",
-    status: "todo",
-    createdAt: new Date().toISOString(),
-  },
-  {
-    id: "3",
-    partNumber: "MK309328",
-    partName: "ORING",
-    qty: 24,
-    variant: "ALL VARIAN",
-    description: "Standard O-ring seal",
+    id: "m1",
+    name: "SUPPLY PART TO FRONT AXLE ASSY",
+    daishaNo: "32",
+    varian: "ALL VARIAN",
+    lotNo: "LOT-001",
+    image: null,
     status: "in-progress",
     createdAt: new Date().toISOString(),
   },
-  {
-    id: "4",
-    partNumber: "MC891541",
-    partName: "NUT CASTLE",
-    qty: 24,
-    variant: "ALL VARIAN",
-    description: "Castle nut for steering knuckle",
-    status: "done",
-    createdAt: new Date().toISOString(),
-  },
+];
+
+export const SAMPLE_SUBITEMS: SubItem[] = [
+  { id: "s1", masterTableId: "m1", partNumber: "MC804020", partName: "BOLT KING PIN SET", qty: 24, variant: "ALL VARIAN", description: "", picture: null, createdAt: new Date().toISOString() },
+  { id: "s2", masterTableId: "m1", partNumber: "MF524042", partName: "NIPPLE GREASE (10)", qty: 24, variant: "ALL VARIAN", description: "", picture: null, createdAt: new Date().toISOString() },
+  { id: "s3", masterTableId: "m1", partNumber: "A4303340020", partName: "END COVER/KING PIN", qty: 24, variant: "ALL VARIAN", description: "", picture: null, createdAt: new Date().toISOString() },
+  { id: "s4", masterTableId: "m1", partNumber: "MK309328", partName: "ORING", qty: 24, variant: "ALL VARIAN", description: "", picture: null, createdAt: new Date().toISOString() },
+  { id: "s5", masterTableId: "m1", partNumber: "MK309459", partName: "COVER KING PIN", qty: 24, variant: "ALL VARIAN", description: "", picture: null, createdAt: new Date().toISOString() },
+  { id: "s6", masterTableId: "m1", partNumber: "A4303321306", partName: "STEERING KNUCKLE PIN", qty: 24, variant: "ALL VARIAN", description: "", picture: null, createdAt: new Date().toISOString() },
+  { id: "s7", masterTableId: "m1", partNumber: "MH041015", partName: "BEARING THRUST", qty: 24, variant: "ALL VARIAN", description: "", picture: null, createdAt: new Date().toISOString() },
+  { id: "s8", masterTableId: "m1", partNumber: "MF430006", partName: "NUT(10)", qty: 24, variant: "ALL VARIAN", description: "", picture: null, createdAt: new Date().toISOString() },
 ];
