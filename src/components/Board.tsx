@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Task, Column } from "@/lib/types";
 import { loadTasks, saveTasks, createTask } from "@/lib/store";
 import ColumnView from "@/components/Column";
@@ -8,10 +8,16 @@ import TaskModal from "@/components/TaskModal";
 import Header from "@/components/Header";
 
 export default function Board() {
-  const [tasks, setTasks] = useState<Task[]>(() => loadTasks());
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [ready, setReady] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [editingTask, setEditingTask] = useState<Task | null>(null);
   const [filterStatus, setFilterStatus] = useState<string>("all");
+
+  useEffect(() => {
+    setTasks(loadTasks());
+    setReady(true);
+  }, []);
 
   const persist = (updated: Task[]) => {
     setTasks(updated);
@@ -66,23 +72,35 @@ export default function Board() {
         onAdd={openCreate}
         filterStatus={filterStatus}
         onFilterChange={setFilterStatus}
-        taskCount={tasks.length}
+        taskCount={ready ? tasks.length : 0}
       />
 
       <main className="mx-auto max-w-7xl px-4 pb-12">
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
-          {filteredColumns.map((col) => (
-            <ColumnView
-              key={col.id}
-              column={col}
-              tasks={getStatusTasks(col.id)}
-              onEdit={handleEdit}
-              onDelete={handleDelete}
-              onStatusChange={handleStatusChange}
-              allStatuses={columns}
-            />
-          ))}
-        </div>
+        {!ready && (
+          <div className="flex items-center justify-center py-32">
+            <div className="rounded border border-cyan-500/20 bg-slate-900 px-6 py-4 text-center">
+              <p className="animate-pulse text-[10px] tracking-widest text-cyan-400 uppercase">
+                Loading...
+              </p>
+            </div>
+          </div>
+        )}
+
+        {ready && (
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+            {filteredColumns.map((col) => (
+              <ColumnView
+                key={col.id}
+                column={col}
+                tasks={getStatusTasks(col.id)}
+                onEdit={handleEdit}
+                onDelete={handleDelete}
+                onStatusChange={handleStatusChange}
+                allStatuses={columns}
+              />
+            ))}
+          </div>
+        )}
       </main>
 
       {modalOpen && (
